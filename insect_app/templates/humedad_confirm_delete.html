@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirmar Eliminación de Humedad{% endblock %}
+
+{% block content-form %}
+    <h1 class="mb-4">Eliminar Registro de Humedad</h1>
+    <div class="alert alert-warning" role="alert">
+        ¿Estás seguro de que quieres eliminar el registro de humedad con ID: <strong>{{ humedad.id }}</strong> (Humedad: {{ humedad.humedad }}%, Hora: {{ humedad.hora }})?
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger me-2">Sí, Eliminar</button>
+        <a href="{% url 'humedad_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}

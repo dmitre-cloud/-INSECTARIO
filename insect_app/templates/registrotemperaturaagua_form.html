@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% block title %}{{ titulo }}{% endblock %}
+{% block content-form %}
+    <h1 class="mb-4">{{ titulo }}</h1>
+    <form method="post" class="needs-validation mb-4" novalidate>
+        {% csrf_token %}
+        <div class="row">
+            {# Fila 1: Fecha y Especie #}
+            <div class="col-md-6 mb-3">
+                {{ form.fecha.label_tag }}
+                {{ form.fecha }}
+                {% if form.fecha.help_text %}
+                    <div class="form-text">{{ form.fecha.help_text }}</div>
+                {% endif %}
+                {% for error in form.fecha.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form.especie.label_tag }}
+                {{ form.especie }}
+                {% if form.especie.help_text %}
+                    <div class="form-text">{{ form.especie.help_text }}</div>
+                {% endif %}
+                {% for error in form.especie.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row">
+            {# Fila 2: Cepa y Fecha de Bandeja #}
+            <div class="col-md-6 mb-3">
+                {{ form.cepa.label_tag }}
+                {{ form.cepa }}
+                {% if form.cepa.help_text %}
+                    <div class="form-text">{{ form.cepa.help_text }}</div>
+                {% endif %}
+                {% for error in form.cepa.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form.fecha_bandeja.label_tag }}
+                {{ form.fecha_bandeja }}
+                {% if form.fecha_bandeja.help_text %}
+                    <div class="form-text">{{ form.fecha_bandeja.help_text }}</div>
+                {% endif %}
+                {% for error in form.fecha_bandeja.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <h3 class="mt-4 mb-3">Temperaturas (7:30 AM)</h3>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                {{ form.temp_730am.label_tag }}
+                {{ form.temp_730am }}
+                {% if form.temp_730am.help_text %}<div class="form-text">{{ form.temp_730am.help_text }}</div>{% endif %}
+                {% for error in form.temp_730am.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+                {{ form.temp_max_730am.label_tag }}
+                {{ form.temp_max_730am }}
+                {% if form.temp_max_730am.help_text %}<div class="form-text">{{ form.temp_max_730am.help_text }}</div>{% endif %}
+                {% for error in form.temp_max_730am.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+                {{ form.temp_min_730am.label_tag }}
+                {{ form.temp_min_730am }}
+                {% if form.temp_min_730am.help_text %}<div class="form-text">{{ form.temp_min_730am.help_text }}</div>{% endif %}
+                {% for error in form.temp_min_730am.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+            </div>
+        </div>
+
+        <h3 class="mt-4 mb-3">Temperaturas (12:00 MD)</h3>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                {{ form.temp_1200md.label_tag }}
+                {{ form.temp_1200md }}
+                {% if form.temp_1200md.help_text %}<div class="form-text">{{ form.temp_1200md.help_text }}</div>{% endif %}
+                {% for error in form.temp_1200md.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+                {{ form.temp_max_1200md.label_tag }}
+                {{ form.temp_max_1200md }}
+                {% if form.temp_max_1200md.help_text %}<div class="form-text">{{ form.temp_max_1200md.help_text }}</div>{% endif %}
+                {% for error in form.temp_max_1200md.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+                {{ form.temp_min_1200md.label_tag }}
+                {{ form.temp_min_1200md }}
+                {% if form.temp_min_1200md.help_text %}<div class="form-text">{{ form.temp_min_1200md.help_text }}</div>{% endif %}
+                {% for error in form.temp_min_1200md.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+            </div>
+        </div>
+
+        <h3 class="mt-4 mb-3">Temperaturas (15:00 PM)</h3>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                {{ form.temp_1500pm.label_tag }}
+                {{ form.temp_1500pm }}
+                {% if form.temp_1500pm.help_text %}<div class="form-text">{{ form.temp_1500pm.help_text }}</div>{% endif %}
+                {% for error in form.temp_1500pm.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+                {{ form.temp_max_1500pm.label_tag }}
+                {{ form.temp_max_1500pm }}
+                {% if form.temp_max_1500pm.help_text %}<div class="form-text">{{ form.temp_max_1500pm.help_text }}</div>{% endif %}
+                {% for error in form.temp_max_1500pm.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+            </div>
+            <div class="col-md-4 mb-3">
+                {{ form.temp_min_1500pm.label_tag }}
+                {{ form.temp_min_1500pm }}
+                {% if form.temp_min_1500pm.help_text %}<div class="form-text">{{ form.temp_min_1500pm.help_text }}</div>{% endif %}
+                {% for error in form.temp_min_1500pm.errors %}<div class="invalid-feedback d-block">{{ error }}</div>{% endfor %}
+            </div>
+        </div>
+
+        <div class="row">
+            {# Fila final: Observaciones y Firma #}
+            <div class="col-md-6 mb-3">
+                {{ form.observaciones.label_tag }}
+                {{ form.observaciones }}
+                {% if form.observaciones.help_text %}
+                    <div class="form-text">{{ form.observaciones.help_text }}</div>
+                {% endif %}
+                {% for error in form.observaciones.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        {# Errores de formulario no relacionados con campos específicos #}
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        {# Campos ocultos, si los hay #}
+        {% for hidden_field in form.hidden_fields %}
+            {{ hidden_field }}
+        {% endfor %}
+
+        <button type="submit" class="btn btn-success me-2">Guardar</button>
+        <a href="{% url 'registrotemperaturaagua_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}

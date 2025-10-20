@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Mortalidad de Pupas{% endblock %}
+
+{% block content-list %}
+    <h1 class="mb-4">Lista de Registros de Mortalidad de Pupas</h1>
+    <a href="{% url 'mortalidad_pupas_create' %}" class="btn btn-primary mb-3">Crear Nuevo Registro de Mortalidad</a>
+
+    {% if mortalidades %}
+        <div class="table-responsive">
+            <table id="mortalidadPupasTable" class="table table-striped table-hover"> {# Añade un ID #}
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Cepa</th>
+                        <th>Cantidad</th>
+                        <th>Fecha creación</th>
+                        <th>Fecha actualización</th>
+                        <th>Observaciones</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for mort in mortalidades %}
+                        <tr>
+                            <td>{{ mort.id }}</td>
+                            <td>{{ mort.cepa }}</td>
+                            <td>{{ mort.cantidad }}</td>
+                            <td>{{ mort.fecha_creacion }}</td>
+                            <td>{{ mort.fecha_actualizacion }}</td>
+                            <td>{{ mort.obs|default:"N/A" }}</td>
+                            <td>
+                                <a href="{% url 'mortalidad_pupas_update' mort.pk %}" class="btn btn-warning btn-sm me-1"><i class="bi bi-pen"></i></a>
+                                <a href="{% url 'mortalidad_pupas_delete' mort.pk %}" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>No hay registros de mortalidad de pupas.</p>
+    {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+
+<script>
+    $(document).ready(function () {
+    var table = $("#mortalidadPupasTable").DataTable({
+      pageLength: 5,
+      lengthMenu: [
+        [5, -1],
+        [5, "Todos"],
+      ],
+
+      lengthChange: true,
+
+      language: idioma_espanol,
+    });
+
+    table.buttons().container().appendTo("#example_wrapper .col-md-6:eq(0)");
+  });
+  var idioma_espanol = {
+    sProcessing: "Procesando...",
+    sLengthMenu: "Mostrar _MENU_ registros",
+    sZeroRecords: "No se encontraron resultados",
+    sEmptyTable: "Ningún dato disponible en esta tabla",
+    sInfo:
+      "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+    sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+    sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+    sInfoPostFix: "",
+    sSearch: "Buscar:",
+    sUrl: "",
+    sInfoThousands: ",",
+    sLoadingRecords: "Cargando...",
+    oPaginate: {
+      sFirst: "Primero",
+      sLast: "Último",
+      sNext: "Siguiente",
+      sPrevious: "Anterior",
+    },
+    oAria: {
+      sSortAscending: ": Activar para ordenar la columna de manera ascendente",
+      sSortDescending:
+        ": Activar para ordenar la columna de manera descendente",
+    },
+    buttons: {
+      copy: "Copiar",
+      print: "Imprimir",
+      colvis: "Visibilidad",
+    },
+  };
+</script>
+{% endblock %}

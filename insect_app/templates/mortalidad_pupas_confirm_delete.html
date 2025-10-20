@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirmar Eliminación de Mortalidad de Pupas{% endblock %}
+
+{% block content-form %}
+    <h1 class="mb-4">Eliminar Registro de Mortalidad de Pupas</h1>
+    <div class="alert alert-warning" role="alert">
+        ¿Estás seguro de que quieres eliminar el registro de mortalidad de pupas con ID: <strong>{{ mortalidad.id }}</strong> (Cepa: {{ mortalidad.cepa }}, Cantidad: {{ mortalidad.cantidad }})?
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger me-2">Sí, Eliminar</button>
+        <a href="{% url 'mortalidad_pupas_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}

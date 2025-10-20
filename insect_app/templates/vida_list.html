@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Vidas{% endblock %}
+
+{% block content-list %}
+    <h1 class="mb-4">Lista de Registros de Vida</h1>
+    <a href="{% url 'vida_create' %}" class="btn btn-primary mb-3">Crear Nuevo Registro de Vida</a>
+
+    {% if vidas %}
+        <div class="table-responsive">
+            <table id="vidaTable" class="table table-striped table-hover"> {# Añade un ID #}
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Especie</th>
+                        <th>Cepa</th>
+                        <th>Fecha Inicio Bandejas</th>
+                        <th>Fecha Pupación</th>
+                        <th># Bandejas Antes</th>
+                        <th>Pupas Vivas</th>
+                        <th>Pupas Muertas</th>
+                        <th>Total Pupas</th>
+                        <th>Larvas Muertas</th>
+                        <th>Bandejas Divididas</th>
+                        <th>Bandejas Después</th>
+                        <th>AM/PM Pupas Vivas</th>
+                        <th>AM/PM Pupas Muertas</th>
+                        <th>AM/PM Larvas Muertas</th>
+                        <th>Tiempo Bandeja</th>
+                        <th>Fecha creación</th>
+                        <th>Fecha actualización</th>
+                        <th>Observaciones</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for vida in vidas %}
+                        <tr>
+                            <td>{{ vida.id }}</td>
+                            <td>{{ vida.especie }}</td>
+                            <td>{{ vida.cepa }}</td>
+                            <td>{{ vida.fecha_inicio_bandejas|date:"Y-m-d"|default:"N/A" }}</td>
+                            <td>{{ vida.fecha_pupacion|date:"Y-m-d"|default:"N/A" }}</td>
+                            <td>{{ vida.numero_bandejas_antes_trabajo }}</td>
+                            <td>{{ vida.pupas_vivas }}</td>
+                            <td>{{ vida.pupas_muertas }}</td>
+                            <td>{{ vida.total_pupas_vivas_y_muertas }}</td>
+                            <td>{{ vida.larvas_muertas }}</td>
+                            <td>{{ vida.bandejas_divididas }}</td>
+                            <td>{{ vida.bandejas_existentes_despues_trabajo }}</td>
+                            <td>{{ vida.am_pm_pupas_vivas }}</td>
+                            <td>{{ vida.am_pm_pupas_muertas }}</td>
+                            <td>{{ vida.am_pm_larvas_muertas }}</td>
+                            <td>{{ vida.tiempo_bandeja }}</td>
+                            <td>{{ vida.fecha_creacion }}</td>
+                            <td>{{ vida.fecha_actualizacion }}</td>
+                            <td>{{ vida.obs|default:"N/A" }}</td>
+                            <td>
+                                <a href="{% url 'vida_update' vida.pk %}" class="btn btn-warning btn-sm me-1"><i class="bi bi-pen"></i></a>
+                                <a href="{% url 'vida_delete' vida.pk %}" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>No hay registros de vida.</p>
+    {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function () {
+    var table = $("#vidaTable").DataTable({
+      pageLength: 5,
+      lengthMenu: [
+        [5, -1],
+        [5, "Todos"],
+      ],
+
+      lengthChange: true,
+
+      language: idioma_espanol,
+    });
+
+    table.buttons().container().appendTo("#example_wrapper .col-md-6:eq(0)");
+  });
+  var idioma_espanol = {
+    sProcessing: "Procesando...",
+    sLengthMenu: "Mostrar _MENU_ registros",
+    sZeroRecords: "No se encontraron resultados",
+    sEmptyTable: "Ningún dato disponible en esta tabla",
+    sInfo:
+      "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+    sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+    sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+    sInfoPostFix: "",
+    sSearch: "Buscar:",
+    sUrl: "",
+    sInfoThousands: ",",
+    sLoadingRecords: "Cargando...",
+    oPaginate: {
+      sFirst: "Primero",
+      sLast: "Último",
+      sNext: "Siguiente",
+      sPrevious: "Anterior",
+    },
+    oAria: {
+      sSortAscending: ": Activar para ordenar la columna de manera ascendente",
+      sSortDescending:
+        ": Activar para ordenar la columna de manera descendente",
+    },
+    buttons: {
+      copy: "Copiar",
+      print: "Imprimir",
+      colvis: "Visibilidad",
+    },
+  };
+</script>
+{% endblock %}

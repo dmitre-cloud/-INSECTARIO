@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content-form %}
+    <style>
+        /* Contenedor principal para el diseño de dos columnas */
+        .login-container {
+            display: flex;
+            /* Altura de la vista menos la altura de la navbar. */
+            min-height: calc(100vh - 76px);
+            /* Sube el contenido al inicio del contenedor */
+            align-items: flex-start;
+            justify-content: center;
+            padding: 20px 0;
+        }
+
+        /* Estilo para la columna de la imagen */
+        .login-image-half {
+            background-image: url('{% static "img/Emergencia de Aedes aegypti.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: 400px;
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+        }
+
+        /* Ocultar la imagen en pantallas pequeñas */
+        @media (max-width: 767.98px) {
+            .login-image-half {
+                display: none;
+            }
+        }
+
+        /* Ajustes para la tarjeta de login */
+        .login-card {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .login-card .card-header {
+            background-color: rgba(0, 123, 255, 0.9) !important;
+            border-top-right-radius: 15px;
+            border-top-left-radius: 0;
+        }
+
+        @media (max-width: 767.98px) {
+            .login-card {
+                border-radius: 15px;
+            }
+            .login-card .card-header {
+                border-top-left-radius: 15px;
+            }
+        }
+    </style>
+    <div class="login-container">
+        <div class="row w-100 justify-content-center align-items-stretch">
+            <div class="col-md-6 d-flex">
+                <div class="login-image-half flex-grow-1"></div>
+            </div>
+            <div class="col-md-6 d-flex">
+                <div class="card shadow-sm login-card flex-grow-1">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h3 class="mb-0">{{ titulo }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2 d-flex justify-content-center">
+                            <img class="rounded"
+                                 src="{% static 'img/logoicges.png' %}"
+                                 alt="logo icges"
+                                 height="55"
+                                 width="130"
+                            />
+                        </div>
+                        <form method="post">
+                            {% csrf_token %}
+                            {% if form.errors %}
+                                <div class="alert alert-danger" role="alert">
+                                    Por favor, corrige los siguientes errores:
+                                    <ul>
+                                        {% for field in form %}
+                                            {% for error in field.errors %}
+                                                <li>{{ field.label }}: {{ error }}</li>
+                                            {% endfor %}
+                                        {% endfor %}
+                                        {% for error in form.non_field_errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                            {% for field in form %}
+                                <div class="mb-3">
+                                    {{ field.label_tag }}
+                                    {{ field }}
+                                    {% if field.help_text %}
+                                        <div class="form-text">{{ field.help_text }}</div>
+                                    {% endif %}
+                                    {% for error in field.errors %}
+                                        <div class="invalid-feedback d-block">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-success btn-lg">Iniciar Sesión</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center text-muted">
+                        Departamento de Entomología Médica 2025
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

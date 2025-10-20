@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content-form %}
+    <h1 class="mb-4">{{ titulo }}</h1>
+    <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="mb-3">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                    <div class="form-text">{{ field.help_text }}</div>
+                {% endif %}
+                {% for error in field.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-success me-2">Guardar</button>
+        <a href="{% url 'mortalidad_pupas_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}

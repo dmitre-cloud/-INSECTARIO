@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirmar Eliminación{% endblock %}
+
+{% block content-form %}
+    <h1 class="mb-4">Eliminar Registro de Temperatura del Agua</h1>
+    <div class="alert alert-warning" role="alert">
+        ¿Estás seguro de que quieres eliminar el registro de la bandeja de la especie <strong>{{ registro.especie }}</strong> (Cepa: {{ registro.cepa }}) del día <strong>{{ registro.fecha|date:"Y-m-d" }}</strong>? Esta acción no se puede deshacer.
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger me-2">Sí, Eliminar</button>
+        <a href="{% url 'registrotemperaturaagua_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}

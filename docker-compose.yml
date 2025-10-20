@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  web:
+    build: .
+    command: sh -c "python manage.py collectstatic --noinput && gunicorn insectario_project.wsgi:application --bind 0.0.0.0:8078"
+    volumes:
+      - .:/app
+    ports:
+      - "8078:8078"
+    # env_file:
+    #   - /.env
+    depends_on:
+      - db
+    # environment:
+
+    restart: always
+  db:
+    image: mariadb:11
+    ports:
+      - "3306:3306"
+    # env_file:
+    #   - /.env
+    environment:
+      MARIADB_ROOT_PASSWORD: insectario1928 # Contraseña para el usuario root de MariaDB.
+      MARIADB_DATABASE: bd_insectario # Nombre de la base de datos a crear.
+      MARIADB_USER: ins_user # Nombre del usuario de la base de datos.
+      MARIADB_PASSWORD: insectario1928 # Contraseña para el usuario de la base de datos.
+
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    networks:
+      - app_network
+
+volumes:
+  db_data: #define volumes

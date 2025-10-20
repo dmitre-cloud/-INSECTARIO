@@ -1,0 +1,129 @@
+{#
+  Plantilla de Django para mostrar gráficos de temperatura y humedad usando Chart.js.
+  Esta plantilla extiende una 'base.html' y define un bloque de contenido.
+#}
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">{{ titulo }}</h1>
+    
+    <div class="row">
+        <!-- Tarjeta para el Gráfico de Temperaturas -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-danger text-white">
+                    <i class="fas fa-thermometer-half"></i> Gráfico de Temperaturas
+                </div>
+                <div class="card-body">
+                    <canvas id="temperaturaChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tarjeta para el Gráfico de Humedades -->
+        <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <i class="fas fa-tint"></i> Gráfico de Humedades
+                </div>
+                <div class="card-body">
+                    <canvas id="humedadChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Incluimos la librería Chart.js desde un CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- 
+  Usamos la etiqueta 'json_script' de Django para pasar los datos de forma segura.
+  Esto crea etiquetas <script> con el contenido JSON, evitando errores de sintaxis
+  al mezclarlo directamente en nuestro JavaScript principal.
+-->
+{{ labels_temp|json_script:"labels-temp-data" }}
+{{ data_temp|json_script:"data-temp-values" }}
+{{ labels_hum|json_script:"labels-hum-data" }}
+{{ data_hum|json_script:"data-hum-values" }}
+
+
+<script>
+    // Esperamos a que todo el contenido del DOM esté cargado antes de ejecutar el script.
+    document.addEventListener('DOMContentLoaded', function () {
+    
+        // --- GRÁFICO DE TEMPERATURA ---
+        const ctxTemp = document.getElementById('temperaturaChart');
+
+        // Verificamos que el elemento canvas exista antes de crear el gráfico.
+        if (ctxTemp) {
+            // Leemos los datos desde las etiquetas <script> generadas por json_script.
+            const labelsTemp = JSON.parse(document.getElementById('labels-temp-data').textContent);
+            const dataTempValues = JSON.parse(document.getElementById('data-temp-values').textContent);
+
+            new Chart(ctxTemp, {
+                type: 'line',
+                data: {
+                    labels: labelsTemp,
+                    datasets: [{
+                        label: 'Temperatura (°C)',
+                        data: dataTempValues,
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.3 // Suaviza las líneas del gráfico.
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false // El eje Y no necesariamente empieza en cero.
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- GRÁFICO DE HUMEDAD ---
+        const ctxHum = document.getElementById('humedadChart');
+
+        // Verificamos que el elemento canvas exista.
+        if (ctxHum) {
+            // Leemos los datos para el gráfico de humedad.
+            const labelsHum = JSON.parse(document.getElementById('labels-hum-data').textContent);
+            const dataHumValues = JSON.parse(document.getElementById('data-hum-values').textContent);
+            
+            new Chart(ctxHum, {
+                type: 'line',
+                data: {
+                    labels: labelsHum,
+                    datasets: [{
+                        label: 'Humedad (%)',
+                        data: dataHumValues,
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>
+
+{% endblock %}
+

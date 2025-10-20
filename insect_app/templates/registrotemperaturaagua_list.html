@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block title %}Lista de Registros de Temperatura del Agua{% endblock %}
+{% block content-list %}
+    <h1 class="mb-4">Registros de Temperatura del Agua</h1>
+    <a href="{% url 'registrotemperaturaagua_create' %}" class="btn btn-primary mb-3">Crear Nuevo Registro Temperatura del Agua</a>
+
+    {% if registros %}
+        <div class="table-responsive">
+            <table id="registrosTemperaturaAguaTable" class="table table-striped table-hover table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Fecha</th>
+                        <th>Especie</th>
+                        <th>Cepa</th>
+                        <th>Fecha Bandeja</th>
+                        <th>Temp 7:30 AM</th>
+                        <th>Máx 7:30 AM</th>
+                        <th>Mín 7:30 AM</th>
+                        <th>Temp 12:00 MD</th>
+                        <th>Máx 12:00 MD</th>
+                        <th>Mín 12:00 MD</th>
+                        <th>Temp 15:00 PM</th>
+                        <th>Máx 15:00 PM</th>
+                        <th>Mín 15:00 PM</th>
+                        <th>Fecha creación</th>
+                        <th>Fecha actualización</th>
+                        <th>Observaciones</th>                        
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for registro in registros %}
+                        <tr>
+                            <td>{{ registro.id }}</td>
+                            <td>{{ registro.fecha|date:"Y-m-d" }}</td>
+                            <td>{{ registro.especie }}</td>
+                            <td>{{ registro.cepa }}</td>
+                            <td>{{ registro.fecha_bandeja|date:"Y-m-d" }}</td>
+                            <td>{{ registro.temp_730am|default:"N/A" }}</td>
+                            <td>{{ registro.temp_max_730am|default:"N/A" }}</td>
+                            <td>{{ registro.temp_min_730am|default:"N/A" }}</td>
+                            <td>{{ registro.temp_1200md|default:"N/A" }}</td>
+                            <td>{{ registro.temp_max_1200md|default:"N/A" }}</td>
+                            <td>{{ registro.temp_min_1200md|default:"N/A" }}</td>
+                            <td>{{ registro.temp_1500pm|default:"N/A" }}</td>
+                            <td>{{ registro.temp_max_1500pm|default:"N/A" }}</td>
+                            <td>{{ registro.temp_min_1500pm|default:"N/A" }}</td>
+
+                            <td>{{ registro.fecha_creacion }}</td>
+                            <td>{{ registro.fecha_actualizacion }}</td>
+
+                            <td>{{ registro.observaciones|default:"N/A" }}</td>
+                            
+                            <td>
+                                <a href="{% url 'registrotemperaturaagua_update' registro.pk %}" class="btn btn-warning btn-sm me-1"><i class="bi bi-pen"></i></a>
+                                <a href="{% url 'registrotemperaturaagua_delete' registro.pk %}" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>No hay registros de temperatura del agua.</p>
+    {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function () {
+    var table = $("#registrosTemperaturaAguaTable").DataTable({
+      pageLength: 5,
+      lengthMenu: [
+        [5, -1],
+        [5, "Todos"],
+      ],
+
+      lengthChange: true,
+
+      language: idioma_espanol,
+    });
+
+    table.buttons().container().appendTo("#example_wrapper .col-md-6:eq(0)");
+  });
+  var idioma_espanol = {
+    sProcessing: "Procesando...",
+    sLengthMenu: "Mostrar _MENU_ registros",
+    sZeroRecords: "No se encontraron resultados",
+    sEmptyTable: "Ningún dato disponible en esta tabla",
+    sInfo:
+      "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+    sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+    sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+    sInfoPostFix: "",
+    sSearch: "Buscar:",
+    sUrl: "",
+    sInfoThousands: ",",
+    sLoadingRecords: "Cargando...",
+    oPaginate: {
+      sFirst: "Primero",
+      sLast: "Último",
+      sNext: "Siguiente",
+      sPrevious: "Anterior",
+    },
+    oAria: {
+      sSortAscending: ": Activar para ordenar la columna de manera ascendente",
+      sSortDescending:
+        ": Activar para ordenar la columna de manera descendente",
+    },
+    buttons: {
+      copy: "Copiar",
+      print: "Imprimir",
+      colvis: "Visibilidad",
+    },
+  };
+</script>
+{% endblock %}

@@ -1,0 +1,236 @@
+{% extends 'base.html' %}
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content-form %}
+    <h1 class="mb-4">{{ titulo }}</h1>
+    <form method="post" class="needs-validation mb-4" novalidate>
+        {% csrf_token %}
+        <div class="row">
+            {# Fila 1: Especie y Cepa #}
+            <div class="col-md-6 mb-3">
+                {{ form.especie.label_tag }}
+                {{ form.especie }}
+                {% if form.especie.help_text %}
+                    <div class="form-text">{{ form.especie.help_text }}</div>
+                {% endif %}
+                {% for error in form.especie.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form.cepa.label_tag }}
+                {{ form.cepa }}
+                {% if form.cepa.help_text %}
+                    <div class="form-text">{{ form.cepa.help_text }}</div>
+                {% endif %}
+                {% for error in form.cepa.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row">
+            {# Fila 2: Fecha Inicio Bandejas y Fecha de Pupación #}
+            <div class="col-md-6 mb-3">
+                {{ form.fecha_inicio_bandejas.label_tag }}
+                {{ form.fecha_inicio_bandejas }}
+                {% if form.fecha_inicio_bandejas.help_text %}
+                    <div class="form-text">{{ form.fecha_inicio_bandejas.help_text }}</div>
+                {% endif %}
+                {% for error in form.fecha_inicio_bandejas.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form.fecha_pupacion.label_tag }}
+                {{ form.fecha_pupacion }}
+                {% if form.fecha_pupacion.help_text %}
+                    <div class="form-text">{{ form.fecha_pupacion.help_text }}</div>
+                {% endif %}
+                {% for error in form.fecha_pupacion.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row">
+            {# Fila 3: numero_bandejas_antes_trabajo y pupas_vivas #}
+            <div class="col-md-6 mb-3">
+                {{ form.numero_bandejas_antes_trabajo.label_tag }}
+                {{ form.numero_bandejas_antes_trabajo }}
+                {% if form.numero_bandejas_antes_trabajo.help_text %}
+                    <div class="form-text">{{ form.numero_bandejas_antes_trabajo.help_text }}</div>
+                {% endif %}
+                {% for error in form.numero_bandejas_antes_trabajo.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form.pupas_vivas.label_tag }}
+                {{ form.pupas_vivas }}
+                {% if form.pupas_vivas.help_text %}
+                    <div class="form-text">{{ form.pupas_vivas.help_text }}</div>
+                {% endif %}
+                {% for error in form.pupas_vivas.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row">
+            {# Fila 4: pupas_muertas y total_pupas_vivas_y_muertas #}
+            <div class="col-md-6 mb-3">
+                {{ form.pupas_muertas.label_tag }}
+                {{ form.pupas_muertas }}
+                {% if form.pupas_muertas.help_text %}
+                    <div class="form-text">{{ form.pupas_muertas.help_text }}</div>
+                {% endif %}
+                {% for error in form.pupas_muertas.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form.total_pupas_vivas_y_muertas.label_tag }}
+                {{ form.total_pupas_vivas_y_muertas }}
+                {% if form.total_pupas_vivas_y_muertas.help_text %}
+                    <div class="form-text">{{ form.total_pupas_vivas_y_muertas.help_text }}</div>
+                {% endif %}
+                {% for error in form.total_pupas_vivas_y_muertas.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row">
+            {# Fila 5: larvas_muertas y bandejas_divididas #}
+            <div class="col-md-6 mb-3">
+                {{ form.larvas_muertas.label_tag }}
+                {{ form.larvas_muertas }}
+                {% if form.larvas_muertas.help_text %}
+                    <div class="form-text">{{ form.larvas_muertas.help_text }}</div>
+                {% endif %}
+                {% for error in form.larvas_muertas.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form.bandejas_divididas.label_tag }}
+                {{ form.bandejas_divididas }}
+                {% if form.bandejas_divididas.help_text %}
+                    <div class="form-text">{{ form.bandejas_divididas.help_text }}</div>
+                {% endif %}
+                {% for error in form.bandejas_divididas.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row">
+            {# Fila 6: bandejas_existentes_despues_trabajo y am_pm_pupas_vivas #}
+            <div class="col-md-6 mb-3">
+                {{ form.bandejas_existentes_despues_trabajo.label_tag }}
+                {{ form.bandejas_existentes_despues_trabajo }}
+                {% if form.bandejas_existentes_despues_trabajo.help_text %}
+                    <div class="form-text">{{ form.bandejas_existentes_despues_trabajo.help_text }}</div>
+                {% endif %}
+                {% for error in form.bandejas_existentes_despues_trabajo.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form.am_pm_pupas_vivas.label_tag }}
+                {{ form.am_pm_pupas_vivas }}
+                {% if form.am_pm_pupas_vivas.help_text %}
+                    <div class="form-text">{{ form.am_pm_pupas_vivas.help_text }}</div>
+                {% endif %}
+                {% for error in form.am_pm_pupas_vivas.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row">
+            {# Fila 7: am_pm_pupas_muertas y am_pm_larvas_muertas #}
+            <div class="col-md-6 mb-3">
+                {{ form.am_pm_pupas_muertas.label_tag }}
+                {{ form.am_pm_pupas_muertas }}
+                {% if form.am_pm_pupas_muertas.help_text %}
+                    <div class="form-text">{{ form.am_pm_pupas_muertas.help_text }}</div>
+                {% endif %}
+                {% for error in form.am_pm_pupas_muertas.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form.am_pm_larvas_muertas.label_tag }}
+                {{ form.am_pm_larvas_muertas }}
+                {% if form.am_pm_larvas_muertas.help_text %}
+                    <div class="form-text">{{ form.am_pm_larvas_muertas.help_text }}</div>
+                {% endif %}
+                {% for error in form.am_pm_larvas_muertas.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row">
+            {# Fila 8: tiempo_bandeja y obs #}
+            <div class="col-md-6 mb-3">
+                {{ form.tiempo_bandeja.label_tag }}
+                {{ form.tiempo_bandeja }}
+                {% if form.tiempo_bandeja.help_text %}
+                    <div class="form-text">{{ form.tiempo_bandeja.help_text }}</div>
+                {% endif %}
+                {% for error in form.tiempo_bandeja.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+            <div class="col-md-6 mb-3">
+                {{ form.obs.label_tag }}
+                {{ form.obs }}
+                {% if form.obs.help_text %}
+                    <div class="form-text">{{ form.obs.help_text }}</div>
+                {% endif %}
+                {% for error in form.obs.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {# Campos ocultos si los hay (como fecha_creacion, fecha_actualizacion) #}
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% for hidden_field in form.hidden_fields %}
+            {{ hidden_field }}
+        {% endfor %}
+
+        <button type="submit" class="btn btn-success me-2">Guardar</button>
+        <a href="{% url 'vida_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        // Función para calcular y actualizar el total de pupas
+        function calcularTotalPupas() {
+            var pupasVivas = parseInt($('#id_pupas_vivas').val()) || 0;
+            var pupasMuertas = parseInt($('#id_pupas_muertas').val()) || 0;
+            var total = pupasVivas + pupasMuertas;
+            $('#id_total_pupas_vivas_y_muertas').val(total);
+        }
+
+        // Asignar el evento 'input' a los campos de pupas vivas y muertas
+        $('#id_pupas_vivas').on('input', calcularTotalPupas);
+        $('#id_pupas_muertas').on('input', calcularTotalPupas);
+
+        // Ejecutar el cálculo al cargar la página (útil para el modo de edición)
+        calcularTotalPupas();
+    });
+</script>
+{% endblock %}
