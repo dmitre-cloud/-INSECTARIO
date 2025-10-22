@@ -2,7 +2,7 @@
 
 {% block title %}{{ titulo }}{% endblock %}
 
-{% block content-form %}
+{% block content %}
     <h1 class="mb-4">{{ titulo }}</h1>
     <form method="post" class="needs-validation" novalidate>
         {% csrf_token %}

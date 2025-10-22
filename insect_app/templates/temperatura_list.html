@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}Lista de Temperaturas{% endblock %}
-{% block content-list %}
+{% block content %}
     <h1 class="mb-4">Lista de Temperaturas</h1>
     <a href="{% url 'temperatura_create' %}" class="btn btn-primary mb-3">Crear Nueva Temperatura</a>
     {% if temperaturas %}
