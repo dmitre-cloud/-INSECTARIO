@@ -3,57 +3,6 @@ from django.contrib.auth import authenticate, login, logout # Importa funciones 
 from django.contrib.auth.decorators import login_required # Decorador para requerir inicio de sesión
 from .models import Temperatura, Humedad, Vida, Mortalidad_pupas, RegistroTemperaturaAgua
 from .forms import TemperaturaForm, HumedadForm, VidaForm, MortalidadPupasForm, CustomAuthenticationForm, RegistroTemperaturaAguaForm # Asegúrate de usar el nombre correcto del formulario
-import json
-from datetime import datetime # ¡Importante! Necesitamos la fecha actual
-
-def get_spanish_month(month_number):
-    """Devuelve el nombre del mes en español."""
-    meses = {
-        1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril', 5: 'Mayo', 6: 'Junio',
-        7: 'Julio', 8: 'Agosto', 9: 'Septiembre', 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
-    }
-    return meses.get(month_number, 'Mes Desconocido')
-
-
-@login_required 
-def dashboard_view(request):
-    """
-    Vista para mostrar los gráficos del dashboard con los 10 valores más altos del mes actual.
-    """
-    now = datetime.now()
-    current_month = now.month
-    current_year = now.year
-
-    # Consultas (sin cambios, asumiendo que ya tienen el fix de float())
-    top_temperaturas = Temperatura.objects.filter(
-        fecha_creacion__year=current_year,
-        fecha_creacion__month=current_month
-    ).order_by('-temperatura')[:10]
-
-    top_humedades = Humedad.objects.filter(
-        fecha_creacion__year=current_year,
-        fecha_creacion__month=current_month
-    ).order_by('-humedad')[:10]
-
-    # **CORRECCIÓN DE ETIQUETAS: Usar SOLO la hora (HH:MM)**
-    labels_temp = [t.fecha_creacion.strftime('%H:%M') for t in top_temperaturas]
-    data_temp = [float(t.temperatura) for t in top_temperaturas]
-
-    labels_hum = [h.fecha_creacion.strftime('%H:%M') for h in top_humedades]
-    data_hum = [float(h.humedad) for h in top_humedades]
-
-    spanish_month = get_spanish_month(now.month)
-    
-    context = {
-        'titulo': f'Top 10 del Mes ({spanish_month})',
-        'labels_temp': json.dumps(labels_temp),
-        'data_temp': json.dumps(data_temp),
-        'labels_hum': json.dumps(labels_hum),
-        'data_hum': json.dumps(data_hum),
-    }
-    
-    return render(request, 'dashboard.html', context)
-
 # --- Vistas de Autenticación ---
 
 def login_view(request):
@@ -69,7 +18,7 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 # CAMBIA ESTA LÍNEA
-                return redirect('dashboard') # Redirige al dashboard
+                return redirect('temperatura_list') # Redirige temperatura_list
             else:
                 form.add_error(None, "Nombre de usuario o contraseña incorrectos.")
     else:

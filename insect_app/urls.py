@@ -34,8 +34,6 @@ urlpatterns = [
     path('temperatura-agua/', views.registrotemperaturaagua_list, name='registrotemperaturaagua_list'),
     path('temperatura-agua/crear/', views.registrotemperaturaagua_create, name='registrotemperaturaagua_create'),
     path('temperatura-agua/<int:pk>/actualizar/', views.registrotemperaturaagua_update, name='registrotemperaturaagua_update'),
-    path('temperatura-agua/<int:pk>/eliminar/', views.registrotemperaturaagua_delete, name='registrotemperaturaagua_delete'),
-
-    path('dashboard/', views.dashboard_view, name='dashboard'),
+    path('temperatura-agua/<int:pk>/eliminar/', views.registrotemperaturaagua_delete, name='registrotemperaturaagua_delete'),    
 
 ]
