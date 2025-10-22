@@ -21,18 +21,23 @@ def dashboard_view(request):
     labels_hum = [h.fecha_creacion.strftime('%d/%m %H:%M') for h in humedades]
     
     # Datos (data) para el eje Y
-    data_temp = [t.temperatura for t in temperaturas]
-    data_hum = [h.humedad for h in humedades]
+    data_temp = [float(t.temperatura) for t in temperaturas]  # <-- CAMBIO AQUÍ
+    data_hum = [float(h.humedad) for h in humedades]      # <-- CAMBIO AQUÍ
 
     # Creamos el contexto para pasarlo a la plantilla
     context = {
         'titulo': 'Dashboard de Monitoreo',
         
         # Usamos json.dumps para convertir las listas de Python a arrays de JavaScript de forma segura
-        'labels_temp': json.dumps(labels_temp),
-        'data_temp': json.dumps(data_temp),
-        'labels_hum': json.dumps(labels_hum),
-        'data_hum': json.dumps(data_hum),
+        # 'labels_temp': json.dumps(labels_temp),
+        # 'data_temp': json.dumps(data_temp),
+        # 'labels_hum': json.dumps(labels_hum),
+        # 'data_hum': json.dumps(data_hum),
+        # PASÁ LAS LISTAS DIRECTAMENTE, ¡SIN json.dumps!
+        'labels_temp': labels_temp,
+        'data_temp': data_temp,
+        'labels_hum': labels_hum,
+        'data_hum': data_hum,
     }
     
     return render(request, 'dashboard.html', context)
