@@ -6,43 +6,50 @@ from .forms import TemperaturaForm, HumedadForm, VidaForm, MortalidadPupasForm, 
 import json
 from datetime import datetime # ¡Importante! Necesitamos la fecha actual
 
-@login_required # Asegura que solo usuarios logueados puedan ver el dashboard
+def get_spanish_month(month_number):
+    """Devuelve el nombre del mes en español."""
+    meses = {
+        1: 'Enero', 2: 'Febrero', 3: 'Marzo', 4: 'Abril', 5: 'Mayo', 6: 'Junio',
+        7: 'Julio', 8: 'Agosto', 9: 'Septiembre', 10: 'Octubre', 11: 'Noviembre', 12: 'Diciembre'
+    }
+    return meses.get(month_number, 'Mes Desconocido')
+
+
+@login_required 
 def dashboard_view(request):
     """
     Vista para mostrar los gráficos del dashboard con los 10 valores más altos del mes actual.
     """
-    # Obtenemos el mes y año actual para el filtro
     now = datetime.now()
     current_month = now.month
     current_year = now.year
 
-    # Consultamos las 10 temperaturas más altas del mes y año actual
     top_temperaturas = Temperatura.objects.filter(
         fecha_creacion__year=current_year,
         fecha_creacion__month=current_month
     ).order_by('-temperatura')[:10]
 
-    # Hacemos lo mismo para las humedades
     top_humedades = Humedad.objects.filter(
         fecha_creacion__year=current_year,
         fecha_creacion__month=current_month
     ).order_by('-humedad')[:10]
 
-    # Preparamos los datos para los gráficos
-    # Las etiquetas ahora mostrarán la fecha y hora exacta de cada pico
-    labels_temp = [t.fecha_creacion.strftime('%d/%m %H:%M') for t in top_temperaturas]
-    
-    # *** CORRECCIÓN CLAVE: Aplicar float() para garantizar la correcta serialización de decimales. ***
+    # --- CORRECCIÓN 1: Formato de Fecha/Hora más compacto para el Eje X ---
+    # Usamos solo la hora (H:M) y mantenemos el día y mes en el tooltip si es necesario.
+    # Si sigue sin verse, usar sólo la hora ': %H:%M'
+    labels_temp = [t.fecha_creacion.strftime('%H:%M') for t in top_temperaturas]
     data_temp = [float(t.temperatura) for t in top_temperaturas]
 
-    labels_hum = [h.fecha_creacion.strftime('%d/%m %H:%M') for h in top_humedades]
-    
-    # *** CORRECCIÓN CLAVE: Aplicar float() para garantizar la correcta serialización de decimales. ***
+    labels_hum = [h.fecha_creacion.strftime('%H:%M') for h in top_humedades]
     data_hum = [float(h.humedad) for h in top_humedades]
+    # -------------------------------------------------------------------
 
+    # --- CORRECCIÓN 2: Título del Mes en Español ---
+    spanish_month = get_spanish_month(now.month)
+    
     context = {
-        # Título dinámico que muestra el mes actual
-        'titulo': f'Top 10 del Mes ({now.strftime("%B")})',
+        # Título dinámico que muestra el mes actual en español
+        'titulo': f'Top 10 del Mes ({spanish_month})',
         'labels_temp': json.dumps(labels_temp),
         'data_temp': json.dumps(data_temp),
         'labels_hum': json.dumps(labels_hum),

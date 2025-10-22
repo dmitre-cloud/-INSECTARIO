@@ -1,7 +1,3 @@
-{#
-  Plantilla de Django para mostrar gráficos de temperatura y humedad usando Chart.js.
-  Esta plantilla extiende una 'base.html' y define un bloque de contenido.
-#}
 {% extends 'base.html' %}
 
 {% block content %}
@@ -42,15 +38,12 @@
 
 
 <script>
-    // Esperamos a que todo el contenido del DOM esté cargado antes de ejecutar el script.
     document.addEventListener('DOMContentLoaded', function () {
     
         // --- GRÁFICO DE TEMPERATURA ---
         const ctxTemp = document.getElementById('temperaturaChart');
 
-        // Verificamos que el elemento canvas exista antes de crear el gráfico.
         if (ctxTemp) {
-            // Leemos los datos desde las etiquetas <script> generadas por json_script.
             const labelsTemp = JSON.parse(document.getElementById('labels-temp-data').textContent);
             const dataTempValues = JSON.parse(document.getElementById('data-temp-values').textContent);
 
@@ -65,7 +58,7 @@
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
                         borderWidth: 2,
                         fill: true,
-                        tension: 0.3 // Suaviza las líneas del gráfico.
+                        tension: 0.3
                     }]
                 },
                 options: {
@@ -73,8 +66,19 @@
                     maintainAspectRatio: false,
                     scales: {
                         y: {
-                            beginAtZero: false // El eje Y no necesariamente empieza en cero.
+                            beginAtZero: false
+                        },
+                        // *** CORRECCIÓN CLAVE: Configuración del Eje X para visibilidad ***
+                        x: {
+                            ticks: {
+                                // Forzar la rotación de las etiquetas para que quepan
+                                maxRotation: 45, 
+                                minRotation: 45,
+                                // Asegurar que no se salte etiquetas automáticamente
+                                autoSkip: false 
+                            }
                         }
+                        // ---------------------------------------------------------------
                     }
                 }
             });
@@ -83,9 +87,7 @@
         // --- GRÁFICO DE HUMEDAD ---
         const ctxHum = document.getElementById('humedadChart');
 
-        // Verificamos que el elemento canvas exista.
         if (ctxHum) {
-            // Leemos los datos para el gráfico de humedad.
             const labelsHum = JSON.parse(document.getElementById('labels-hum-data').textContent);
             const dataHumValues = JSON.parse(document.getElementById('data-hum-values').textContent);
             
@@ -109,7 +111,16 @@
                     scales: {
                         y: {
                             beginAtZero: false
+                        },
+                        // *** CORRECCIÓN CLAVE: Configuración del Eje X para visibilidad ***
+                        x: {
+                            ticks: {
+                                maxRotation: 45, 
+                                minRotation: 45,
+                                autoSkip: false
+                            }
                         }
+                        // ---------------------------------------------------------------
                     }
                 }
             });
