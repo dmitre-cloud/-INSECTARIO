@@ -30,8 +30,10 @@
                             <td>{{ temp.min_temperatura }}</td>
                             <td>{{ temp.hora|time:"H:i" }}</td> {# Formato de hora #}
                             <td>{{ temp.area_de_trabajo }}</td>
-                            <td>{{ temp.fecha_creacion }}</td>
-                            <td>{{ temp.fecha_actualizacion }}</td>
+                            {# CAMBIO AQUÍ: Formato "dd/mm/YYYY a las H:i" #}
+                            <td>{{ temp.fecha_creacion|date:"d/m/Y \a \l\a\s H:i" }}</td>
+                            {# CAMBIO AQUÍ: Formato "dd/mm/YYYY a las H:i" #}
+                            <td>{{ temp.fecha_actualizacion|date:"d/m/Y \a \l\a\s H:i" }}</td>
                             <td>{{ temp.obs|default:"N/A" }}</td>
                             <td>
                                 <a href="{% url 'temperatura_update' temp.pk %}" class="btn btn-warning btn-sm me-1"><i class="bi bi-pen"></i></a>

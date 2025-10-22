@@ -4,40 +4,48 @@ from django.contrib.auth.decorators import login_required # Decorador para reque
 from .models import Temperatura, Humedad, Vida, Mortalidad_pupas, RegistroTemperaturaAgua
 from .forms import TemperaturaForm, HumedadForm, VidaForm, MortalidadPupasForm, CustomAuthenticationForm, RegistroTemperaturaAguaForm # Asegúrate de usar el nombre correcto del formulario
 import json
+from datetime import datetime # ¡Importante! Necesitamos la fecha actual
 
 @login_required # Asegura que solo usuarios logueados puedan ver el dashboard
 def dashboard_view(request):
     """
-    Vista para mostrar los gráficos del dashboard.
+    Vista para mostrar los gráficos del dashboard con los 10 valores más altos del mes actual.
     """
-    # Obtenemos los últimos 30 registros para no sobrecargar el gráfico
-    # Ordenamos por fecha de creación para que el gráfico tenga sentido cronológico
-    temperaturas = Temperatura.objects.order_by('fecha_creacion').all()[:30]
-    humedades = Humedad.objects.order_by('fecha_creacion').all()[:30]
+    # Obtenemos el mes y año actual para el filtro
+    now = datetime.now()
+    current_month = now.month
+    current_year = now.year
+
+    # Consultamos las 10 temperaturas más altas del mes y año actual
+    # 1. Filtramos por año y mes
+    # 2. Ordenamos de forma descendente por el campo 'temperatura' (el guion lo indica)
+    # 3. Limitamos el resultado a 10 registros
+    top_temperaturas = Temperatura.objects.filter(
+        fecha_creacion__year=current_year,
+        fecha_creacion__month=current_month
+    ).order_by('-temperatura')[:10]
+
+    # Hacemos lo mismo para las humedades
+    top_humedades = Humedad.objects.filter(
+        fecha_creacion__year=current_year,
+        fecha_creacion__month=current_month
+    ).order_by('-humedad')[:10]
 
     # Preparamos los datos para los gráficos
-    # Etiquetas (labels) para el eje X (usaremos la hora y fecha de creación)
-    labels_temp = [t.fecha_creacion.strftime('%d/%m %H:%M') for t in temperaturas]
-    labels_hum = [h.fecha_creacion.strftime('%d/%m %H:%M') for h in humedades]
-    
-    # Datos (data) para el eje Y
-    data_temp = [float(t.temperatura) for t in temperaturas]  # <-- CAMBIO AQUÍ
-    data_hum = [float(h.humedad) for h in humedades]      # <-- CAMBIO AQUÍ
+    # Las etiquetas ahora mostrarán la fecha y hora exacta de cada pico
+    labels_temp = [t.fecha_creacion.strftime('%d/%m %H:%M') for t in top_temperaturas]
+    data_temp = [t.temperatura for t in top_temperaturas]
 
-    # Creamos el contexto para pasarlo a la plantilla
+    labels_hum = [h.fecha_creacion.strftime('%d/%m %H:%M') for h in top_humedades]
+    data_hum = [h.humedad for h in top_humedades]
+
     context = {
-        'titulo': 'Dashboard de Monitoreo',
-        
-        # Usamos json.dumps para convertir las listas de Python a arrays de JavaScript de forma segura
-        # 'labels_temp': json.dumps(labels_temp),
-        # 'data_temp': json.dumps(data_temp),
-        # 'labels_hum': json.dumps(labels_hum),
-        # 'data_hum': json.dumps(data_hum),
-        # PASÁ LAS LISTAS DIRECTAMENTE, ¡SIN json.dumps!
-        'labels_temp': labels_temp,
-        'data_temp': data_temp,
-        'labels_hum': labels_hum,
-        'data_hum': data_hum,
+        # Título dinámico que muestra el mes actual
+        'titulo': f'Top 10 del Mes ({now.strftime("%B")})',
+        'labels_temp': json.dumps(labels_temp),
+        'data_temp': json.dumps(data_temp),
+        'labels_hum': json.dumps(labels_hum),
+        'data_hum': json.dumps(data_hum),
     }
     
     return render(request, 'dashboard.html', context)
