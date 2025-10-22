@@ -17,9 +17,6 @@ def dashboard_view(request):
     current_year = now.year
 
     # Consultamos las 10 temperaturas más altas del mes y año actual
-    # 1. Filtramos por año y mes
-    # 2. Ordenamos de forma descendente por el campo 'temperatura' (el guion lo indica)
-    # 3. Limitamos el resultado a 10 registros
     top_temperaturas = Temperatura.objects.filter(
         fecha_creacion__year=current_year,
         fecha_creacion__month=current_month
@@ -34,10 +31,14 @@ def dashboard_view(request):
     # Preparamos los datos para los gráficos
     # Las etiquetas ahora mostrarán la fecha y hora exacta de cada pico
     labels_temp = [t.fecha_creacion.strftime('%d/%m %H:%M') for t in top_temperaturas]
-    data_temp = [t.temperatura for t in top_temperaturas]
+    
+    # *** CORRECCIÓN CLAVE: Aplicar float() para garantizar la correcta serialización de decimales. ***
+    data_temp = [float(t.temperatura) for t in top_temperaturas]
 
     labels_hum = [h.fecha_creacion.strftime('%d/%m %H:%M') for h in top_humedades]
-    data_hum = [h.humedad for h in top_humedades]
+    
+    # *** CORRECCIÓN CLAVE: Aplicar float() para garantizar la correcta serialización de decimales. ***
+    data_hum = [float(h.humedad) for h in top_humedades]
 
     context = {
         # Título dinámico que muestra el mes actual

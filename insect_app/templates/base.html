@@ -32,10 +32,13 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'temperatura_list' %}">Temperaturas</a>
+                            <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'humedad_list' %}">Humedades</a>
+                            <a class="nav-link" href="{% url 'temperatura_list' %}">Temp</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'humedad_list' %}">Hum</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'vida_list' %}">Vidas</a>

@@ -9,7 +9,6 @@
     <h1 class="mb-4">{{ titulo }}</h1>
     
     <div class="row">
-        <!-- Tarjeta para el Gráfico de Temperaturas -->
         <div class="col-lg-6 mb-4">
             <div class="card shadow-sm">
                 <div class="card-header bg-danger text-white">
@@ -21,7 +20,6 @@
             </div>
         </div>
 
-        <!-- Tarjeta para el Gráfico de Humedades -->
         <div class="col-lg-6 mb-4">
             <div class="card shadow-sm">
                 <div class="card-header bg-primary text-white">
@@ -35,14 +33,8 @@
     </div>
 </div>
 
-<!-- Incluimos la librería Chart.js desde un CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- 
-  Usamos la etiqueta 'json_script' de Django para pasar los datos de forma segura.
-  Esto crea etiquetas <script> con el contenido JSON, evitando errores de sintaxis
-  al mezclarlo directamente en nuestro JavaScript principal.
--->
 {{ labels_temp|json_script:"labels-temp-data" }}
 {{ data_temp|json_script:"data-temp-values" }}
 {{ labels_hum|json_script:"labels-hum-data" }}
@@ -126,4 +118,3 @@
 </script>
 
 {% endblock %}
-
