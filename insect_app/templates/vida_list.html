@@ -39,8 +39,13 @@
                             <td>{{ vida.id }}</td>
                             <td>{{ vida.especie }}</td>
                             <td>{{ vida.cepa }}</td>
-                            <td>{{ vida.fecha_inicio_bandejas|date:"Y-m-d"|default:"N/A" }}</td>
-                            <td>{{ vida.fecha_pupacion|date:"Y-m-d"|default:"N/A" }}</td>
+                            
+                            {# CAMBIO: Formato dd/mm/YYYY #}
+                            <td>{{ vida.fecha_inicio_bandejas|date:"d/m/Y"|default:"N/A" }}</td>
+                            
+                            {# CAMBIO: Formato dd/mm/YYYY #}
+                            <td>{{ vida.fecha_pupacion|date:"d/m/Y"|default:"N/A" }}</td>
+                            
                             <td>{{ vida.numero_bandejas_antes_trabajo }}</td>
                             <td>{{ vida.pupas_vivas }}</td>
                             <td>{{ vida.pupas_muertas }}</td>
@@ -52,8 +57,13 @@
                             <td>{{ vida.am_pm_pupas_muertas }}</td>
                             <td>{{ vida.am_pm_larvas_muertas }}</td>
                             <td>{{ vida.tiempo_bandeja }}</td>
-                            <td>{{ vida.fecha_creacion }}</td>
-                            <td>{{ vida.fecha_actualizacion }}</td>
+                            
+                            {# CAMBIO: Formato dd/mm/YYYY con hora H:i #}
+                            <td>{{ vida.fecha_creacion|date:"d/m/Y \a \l\a\s H:i" }}</td>
+                            
+                            {# CAMBIO: Formato dd/mm/YYYY con hora H:i #}
+                            <td>{{ vida.fecha_actualizacion|date:"d/m/Y \a \l\a\s H:i" }}</td>
+                            
                             <td>{{ vida.obs|default:"N/A" }}</td>
                             <td>
                                 <a href="{% url 'vida_update' vida.pk %}" class="btn btn-warning btn-sm me-1"><i class="bi bi-pen"></i></a>

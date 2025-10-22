@@ -25,7 +25,7 @@
                         <th>Mín 15:00 PM</th>
                         <th>Fecha creación</th>
                         <th>Fecha actualización</th>
-                        <th>Observaciones</th>                        
+                        <th>Observaciones</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -33,10 +33,16 @@
                     {% for registro in registros %}
                         <tr>
                             <td>{{ registro.id }}</td>
-                            <td>{{ registro.fecha|date:"Y-m-d" }}</td>
+                            
+                            {# CAMBIO: Formato dd/mm/YYYY #}
+                            <td>{{ registro.fecha|date:"d/m/Y" }}</td>
+                            
                             <td>{{ registro.especie }}</td>
                             <td>{{ registro.cepa }}</td>
-                            <td>{{ registro.fecha_bandeja|date:"Y-m-d" }}</td>
+                            
+                            {# CAMBIO: Formato dd/mm/YYYY #}
+                            <td>{{ registro.fecha_bandeja|date:"d/m/Y" }}</td>
+                            
                             <td>{{ registro.temp_730am|default:"N/A" }}</td>
                             <td>{{ registro.temp_max_730am|default:"N/A" }}</td>
                             <td>{{ registro.temp_min_730am|default:"N/A" }}</td>
@@ -47,8 +53,11 @@
                             <td>{{ registro.temp_max_1500pm|default:"N/A" }}</td>
                             <td>{{ registro.temp_min_1500pm|default:"N/A" }}</td>
 
-                            <td>{{ registro.fecha_creacion }}</td>
-                            <td>{{ registro.fecha_actualizacion }}</td>
+                            {# CAMBIO: Formato dd/mm/YYYY con hora H:i #}
+                            <td>{{ registro.fecha_creacion|date:"d/m/Y \a \l\a\s H:i" }}</td>
+                            
+                            {# CAMBIO: Formato dd/mm/YYYY con hora H:i #}
+                            <td>{{ registro.fecha_actualizacion|date:"d/m/Y \a \l\a\s H:i" }}</td>
 
                             <td>{{ registro.observaciones|default:"N/A" }}</td>
                             
