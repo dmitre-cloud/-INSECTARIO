@@ -68,17 +68,16 @@
                         y: {
                             beginAtZero: false
                         },
-                        // *** CORRECCIÓN CLAVE: Configuración del Eje X para visibilidad ***
+                        // **CORRECCIÓN CLAVE: Aumentar la rotación a 90 grados**
                         x: {
                             ticks: {
-                                // Forzar la rotación de las etiquetas para que quepan
-                                maxRotation: 45, 
-                                minRotation: 45,
-                                // Asegurar que no se salte etiquetas automáticamente
-                                autoSkip: false 
+                                maxRotation: 90, 
+                                minRotation: 90,
+                                autoSkip: false,
+                                // También podemos alinear el texto para que se vea mejor
+                                align: 'end' 
                             }
                         }
-                        // ---------------------------------------------------------------
                     }
                 }
             });
@@ -112,15 +111,15 @@
                         y: {
                             beginAtZero: false
                         },
-                        // *** CORRECCIÓN CLAVE: Configuración del Eje X para visibilidad ***
+                        // **CORRECCIÓN CLAVE: Aumentar la rotación a 90 grados**
                         x: {
                             ticks: {
-                                maxRotation: 45, 
-                                minRotation: 45,
-                                autoSkip: false
+                                maxRotation: 90, 
+                                minRotation: 90,
+                                autoSkip: false,
+                                align: 'end'
                             }
                         }
-                        // ---------------------------------------------------------------
                     }
                 }
             });

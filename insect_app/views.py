@@ -24,6 +24,7 @@ def dashboard_view(request):
     current_month = now.month
     current_year = now.year
 
+    # Consultas (sin cambios, asumiendo que ya tienen el fix de float())
     top_temperaturas = Temperatura.objects.filter(
         fecha_creacion__year=current_year,
         fecha_creacion__month=current_month
@@ -34,21 +35,16 @@ def dashboard_view(request):
         fecha_creacion__month=current_month
     ).order_by('-humedad')[:10]
 
-    # --- CORRECCIÓN 1: Formato de Fecha/Hora más compacto para el Eje X ---
-    # Usamos solo la hora (H:M) y mantenemos el día y mes en el tooltip si es necesario.
-    # Si sigue sin verse, usar sólo la hora ': %H:%M'
+    # **CORRECCIÓN DE ETIQUETAS: Usar SOLO la hora (HH:MM)**
     labels_temp = [t.fecha_creacion.strftime('%H:%M') for t in top_temperaturas]
     data_temp = [float(t.temperatura) for t in top_temperaturas]
 
     labels_hum = [h.fecha_creacion.strftime('%H:%M') for h in top_humedades]
     data_hum = [float(h.humedad) for h in top_humedades]
-    # -------------------------------------------------------------------
 
-    # --- CORRECCIÓN 2: Título del Mes en Español ---
     spanish_month = get_spanish_month(now.month)
     
     context = {
-        # Título dinámico que muestra el mes actual en español
         'titulo': f'Top 10 del Mes ({spanish_month})',
         'labels_temp': json.dumps(labels_temp),
         'data_temp': json.dumps(data_temp),
